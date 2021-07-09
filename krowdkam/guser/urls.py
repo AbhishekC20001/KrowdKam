@@ -4,6 +4,6 @@ from . import views
 
 urlpatterns = [
     path("",views.guserhome,name='guserhome'),
-    path("api",views.LocationCarousel,name='LocationCarousel')
+    path("location_carousel",views.LocationCarousel,name='LocationCarousel')
 
 ]
