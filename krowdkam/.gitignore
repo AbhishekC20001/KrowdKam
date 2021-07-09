@@ -28,6 +28,7 @@ media
 
 **.idea/**
 
+
 # Python # 
 *.py[cod] 
 *$py.class 
