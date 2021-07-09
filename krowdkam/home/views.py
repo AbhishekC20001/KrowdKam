@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from guser.models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer,OrgSerializer
 
 # Create your views here.
 def index(request):
@@ -19,3 +19,11 @@ def UserReg(request):
         userser.save()
 
     return Response(userser.data)
+
+@api_view(['POST'])
+def OrgReg(request):
+    orgser=OrgSerializer(data=request.data)
+    if orgser.is_valid():
+        orgser.save()
+
+    return Response(orgser.data)
