@@ -11,8 +11,3 @@ from .serializers import UserSerializer
 def index(request):
     return render(request,'base.html')
 
-
-@api_view(['POST'])
-def UserReg(request):
-    
-    return Response(locations)
