@@ -9,6 +9,10 @@ from guser.models import User
 from client.models import Organization,CCTVcam,Zone
 from .serializers import UserSerializer,OrgSerializer,ZoneSerializer,CCTVSerializer
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
 # Create your views here.
 def index(request):
     return render(request,'base.html')

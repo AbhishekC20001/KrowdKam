@@ -7,6 +7,9 @@ from rest_framework.decorators import api_view
 from client.models import *
 from .serializers import *
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 def guserhome(request):
@@ -27,6 +30,7 @@ def LocationCarousel(request):
 
 @api_view(['GET'])
 def zones(request, id):
+    permission_classes = (IsAuthenticated,)
     try:
         organizartion_obj = Organization.objects.get(id=id)
         zone_objs = Zone.objects.filter(organization=organizartion_obj)
