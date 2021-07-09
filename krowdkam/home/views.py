@@ -11,3 +11,11 @@ from .serializers import UserSerializer
 def index(request):
     return render(request,'base.html')
 
+
+@api_view(['POST'])
+def UserReg(request):
+    userser=UserSerializer(data=request.data)
+    if userser.is_valid():
+        userser.save()
+
+    return Response(userser.data)
