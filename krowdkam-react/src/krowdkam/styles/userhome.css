@@ -1,0 +1,46 @@
+.card:hover{
+    color: red;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.22) 0rem 1.188rem 2.688rem;
+transform: translate3d(0.25rem, -0.625rem, 0rem);
+
+  }
+  .card{
+    top: -0.625rem; 
+    transition: top ease;
+  }
+  /* .navbar
+{
+background-color: rgb(31,37,51);
+} */
+/* #header
+{
+background-color: rgb(51,53,69);
+padding: 0.938rem 0.938rem;
+}
+#logo{
+position: relative;
+left:6.25rem;
+}
+#logo:hover{
+cursor: pointer;
+} */
+/* .navbar-nav > li > a {padding-top:0rem !important; padding-bottom:0rem !important;}
+.navbar {min-height:1.25rem !important}
+.nav-item{
+position: relative;
+left:6.25rem;
+} */
+#cont{
+position: relative;
+left:0%;
+}
+
+.slick-prev {
+    left: 3% !important;
+    z-index: 1;
+  }
+  .slick-next {
+    right: 3% !important;
+    z-index: 1;
+  }

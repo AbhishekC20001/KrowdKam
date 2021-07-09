@@ -1,0 +1,212 @@
+.inp-grp-ysb {
+    position: relative;
+    margin: 1.875rem 0 1.25rem;
+  }
+  
+  input {
+    font-family: Roboto,sans-serif;
+    font-size: 1.125rem;
+    padding: 0.625rem 0.625rem 0.625rem 0.313rem;
+    display: block;
+    width: 18.75rem;
+    border: 0.119rem solid black;
+    background-color: rgb(237,237,237);
+    border-radius: 0.188rem;
+    outline: none;
+    z-index: 1;
+  }
+  
+  
+  input:focus {
+    outline: none;
+  }
+  
+  label {
+    color: rgb(107, 107, 107);
+    font-size: 1.125rem;
+    font-weight: normal;
+    font-family: Roboto,sans-serif;
+    position: absolute;
+    pointer-events: none;
+    left: 0.625rem;
+    top: 0.75rem;
+    transition: 0.4s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.4s ease all;
+    border:0.125rem black;
+  }
+  
+  input:focus ~ label,
+  input:valid ~ label {
+    top: -1.5rem;
+    font-size: 0.875rem;
+    color: black;
+    background-color:white;
+    padding-left: 0.188rem;
+    padding-right: 0.188rem;
+    padding-top: 0.313rem;
+    display: flex;
+    align-items: baseline;
+  }
+  
+  
+  input:before,
+  input:after {
+    content: '';
+    height: 0.125rem;
+    width: 0;
+    bottom: 0.063rem;
+    position: absolute;
+    background: black;
+    height: 0.125rem;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+  
+  input:before {
+    left: 50%;
+  }
+  
+  input:after {
+    right: 50%;
+  }
+  
+  input:focus ~ input:before,
+  input:focus ~ input:after {
+    width: 50%;
+  }
+  
+  
+  
+  input:focus ~ .highlight {
+    -webkit-animation: inputHighlighter 0.3s ease;
+    -moz-animation: inputHighlighter 0.3s ease;
+    animation: inputHighlighter 0.3s ease;
+  }
+  
+  /* Blomck css */
+  
+  /* body{
+      background-image: url("con_bg2.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+  } */
+  .cont{
+      position: relative;
+      background-color: rgb(255, 255, 255);
+      width: fit-content;
+      padding-left: 1.563rem;
+      padding-right: 1.438rem;
+      padding-bottom: 0.125rem;
+      border-radius: 0.313rem;
+      position: absolute;
+      right:10%;
+      margin:0.5rem;
+  }
+  
+  #cont-header{
+    font: 100;
+    text-align: center;
+    font-size: 1.438rem;
+    margin-top: 0.625rem;
+    margin-bottom: -1.063rem;
+  }
+  
+  .btn-register
+  {
+      padding: 0.438rem;
+      margin-bottom: 0.813rem;
+      margin-top: 0.625rem;
+      position: relative;
+      width: 100%;
+      font-family:Roboto,sans-serif;
+      font-size: 1.188rem;
+      font-weight: 500;
+  }
+  
+  .intro{
+      position: absolute;
+      left: 10%;
+      top: 35%;
+      color: rgb(255, 255, 255);
+      font-size: 2.25rem;
+      font-weight: 600;
+      font-family: Roboto,sans-serif;;
+  }
+  .detail{
+      position: absolute;
+      left: 10%;
+      top: 45%;
+      color: rgb(255, 255, 255);
+      width:30%;
+  }
+  
+  /* Navbar css starts*/
+  .navbar
+  {
+   background-color: rgb(31,37,51);
+  }
+  #header
+  {
+    background-color: rgb(51,53,69);
+    margin-bottom: -1.875rem;
+  }
+  #logo{
+    position: relative;
+    left:7.5rem;
+    top:0.875rem;
+  }
+  #logo:hover{
+    cursor: pointer;
+  }
+  .navbar-nav > li > a {padding-top:0rem !important; padding-bottom:0rem !important;}
+  .navbar {min-height:1.25rem !important}
+  .nav-item{
+    position: relative;
+    left:6.25rem;
+  }
+  .header-search
+  {
+    padding-top: 0rem;
+    position: relative;
+    top:-1.188rem;
+    left: 21.875rem;
+    width: 50%;
+  }
+  .header-searchbox{
+    padding-left: 0.438rem;
+    height: 2.188rem;
+    margin-bottom: 0rem;
+    font-family: Roboto,sans-serif!important;
+    font-size: 0.875rem;
+    border:none;
+    background-color: white;
+  }
+  #header-searchbox-btn
+  {
+    font-weight: bold; 
+    font-size: 0.875rem;
+    color:rgb(240, 59, 59);;
+    position: relative;
+    left: 41.25rem;
+    top:-3.5rem;
+    background-color: transparent;
+    border: 0.094rem solid rgb(240, 59, 59);;
+    margin-bottom: -0.625rem;
+  }
+  #header-searchbox-btn:hover{
+    background-color:rgb(240, 59, 59);;
+    color: white;
+  }
+
+  .background-login-div{
+    background-image: url("../images/con_bg2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /* position: relative; */
+    height: 81.5vh;
+    
+  }
