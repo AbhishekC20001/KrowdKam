@@ -4,8 +4,8 @@ from django.apps import apps
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from client.models import Organization
-from .serializers import OrgSerializer
+from client.models import *
+from .serializers import *
 
 # Create your views here.
 def guserhome(request):
@@ -23,3 +23,11 @@ def LocationCarousel(request):
         "Mumbai": m.data
     }
     return Response(locations)
+
+@api_view(['GET'])
+def zones(request, id):
+    organizartion_obj = Organization.objects.get(id=id)
+    zone_objs = Zone.objects.filter(organization=organizartion_obj)
+    zones = ZoneSerializer(zone_objs, many=True)
+
+    return Response(zones.data)
