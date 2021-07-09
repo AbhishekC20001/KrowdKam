@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from client.models import *
 from .serializers import *
+from rest_framework import status
 
 # Create your views here.
 def guserhome(request):
@@ -26,8 +27,11 @@ def LocationCarousel(request):
 
 @api_view(['GET'])
 def zones(request, id):
-    organizartion_obj = Organization.objects.get(id=id)
-    zone_objs = Zone.objects.filter(organization=organizartion_obj)
-    zones = ZoneSerializer(zone_objs, many=True)
+    try:
+        organizartion_obj = Organization.objects.get(id=id)
+        zone_objs = Zone.objects.filter(organization=organizartion_obj)
+        zones = ZoneSerializer(zone_objs, many=True)
 
-    return Response(zones.data)
+        return Response({"success":True,"data":zones.data,"code":1})
+    except:
+        return Response({'success': False, "message": "Bad Request", "code": -2}, status=status.HTTP_400_BAD_REQUEST)
