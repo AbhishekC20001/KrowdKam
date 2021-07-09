@@ -22,7 +22,7 @@ urlpatterns = [
     # path('login', include('home.urls')),
     # path('logout', include('home.urls')),
     path('client/', include('client.urls')),
-    path('guser/api', include('guser.urls')),
+    path('guser/api/', include('guser.urls')),
     path('admin/', admin.site.urls),
 ]
 
