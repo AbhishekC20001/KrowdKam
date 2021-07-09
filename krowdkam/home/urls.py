@@ -4,7 +4,9 @@ from . import views
 
 urlpatterns = [
     path("",views.index,name='index'),
-    path("userpostapi",views.UserReg,name='UserReg')
+    path("userpostapi",views.UserReg,name='UserReg'),
+    path("orgpostapi",views.UserReg,name='UserReg')
+
 
 ]
 
