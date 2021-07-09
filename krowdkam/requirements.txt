@@ -3,3 +3,5 @@ Django==3.2.5
 mysqlclient==2.0.3
 pytz==2021.1
 sqlparse==0.4.1
+opencv-python==4.5.2.54
+djangorestframework==3.12.4
