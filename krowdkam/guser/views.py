@@ -28,6 +28,7 @@ def LocationCarousel(request):
     }
     return Response(locations)
 
+
 @api_view(['GET'])
 def zones(request, id):
     permission_classes = (IsAuthenticated,)
