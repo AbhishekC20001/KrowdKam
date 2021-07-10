@@ -40,28 +40,37 @@ def ZoneReg(request):
     # print(zoneser['organization'])
     # zoneser['organization']="Imagica"
     zoneser['organization']=Organization.objects.filter(name=zoneser['organization'])[0].id
+    zoneser['zone']=Zone.objects.filter(name=zoneser['zone'],organization=zoneser['organization'])[0].id
+    cameras=zoneser['cameras']
+    del zoneser['cameras']
     # print(zoneser)
+
+    for i in cameras:
+        camser={"organization":zoneser['organization'],"zone":zoneser['zone'],"position":i}
+        camser=CCTVSerializer(data=camser)
+        if camser.is_valid():
+            camser.save()
+
     zoneser=ZoneSerializer(data=zoneser)
     if zoneser.is_valid():
         zoneser.save()
-
     return Response(zoneser.data)
 
-@api_view(['POST'])
-def CamReg(request):
-    camser=request.data
-    # print(camser['organization'])
-    # zoneser['organization']="Imagica"
+# @api_view(['POST'])
+# def CamReg(request):
+#     camser=request.data
+#     # print(camser['organization'])
+#     # zoneser['organization']="Imagica"
     
-    camser['organization']=Organization.objects.filter(name=camser['organization'])[0].id
-    camser['zone']=Zone.objects.filter(name=camser['zone'],organization=camser['organization'])[0].id
+#     camser['organization']=Organization.objects.filter(name=camser['organization'])[0].id
+#     camser['zone']=Zone.objects.filter(name=camser['zone'],organization=camser['organization'])[0].id
 
-    # print(camser)
-    camser=CCTVSerializer(data=camser)
-    if camser.is_valid():
-        camser.save()
+#     # print(camser)
+#     camser=CCTVSerializer(data=camser)
+#     if camser.is_valid():
+#         camser.save()
 
-    return Response(camser.data)
+#     return Response(camser.data)
 
 
 

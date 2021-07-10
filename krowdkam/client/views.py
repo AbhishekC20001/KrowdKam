@@ -1,3 +1,4 @@
+from django import shortcuts
 from django.shortcuts import render, redirect
 from django.apps import apps
 
@@ -10,6 +11,14 @@ from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 import cv2
 import threading
+
+
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from guser.models import User
+from client.models import Organization,CCTVcam,Zone, AnalysisReport
+from .serializers import UserSerializer,OrgSerializer,ZoneSerializer,CCTVSerializer, ARSerializer
 
 
 # Create your views here.
@@ -52,3 +61,13 @@ def gen(camera):
         frame = camera.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+
+@api_view(['GET'])
+def Analysis(request,zone,org):
+    organizartion_obj = Organization.objects.get(name=org)
+    zone_obj = Zone.objects.get(organization=organizartion_obj, name=zone)
+    ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj).order_by("-updated_at"))[0]
+    ar = ARSerializer(ar_obj)
+    
+    return Response(ar.data)

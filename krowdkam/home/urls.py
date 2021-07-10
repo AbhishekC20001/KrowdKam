@@ -12,11 +12,16 @@ urlpatterns = [
     path("userpostapi",views.UserReg,name='UserReg'),
     path("orgpostapi",views.OrgReg,name='OrgReg'),
     path("zonepostapi",views.ZoneReg,name='ZoneReg'),
+<<<<<<< Updated upstream
     path("zonegetapi",views.ZoneGet,name='ZoneGet'),
     path("cctvpostapi",views.CamReg,name='CamReg'),
     path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
+=======
+    path("zonegetapi",views.ZoneGet,name='ZoneGet')
+    # path("cctvpostapi",views.CamReg,name='CamReg')
+>>>>>>> Stashed changes
 
 ]
 
@@ -43,4 +48,16 @@ urlpatterns = [
     "organization" : "Infiniti Mall",
     "position" : "Inside Trial Room according to Manager Chopra's instructions"
 }
+
+{
+    "organization" : "Infiniti Mall",
+    "zone" : "Westside",
+    "description" : "Big Bazaar is an Indian retail chain of hypermarkets, discount department stores, and grocery stores.",
+    "location" : "Upper Left Corner on 1st floor",
+    "cameras" : [   "Inside Washroom according to Manager Chopra's instructions", 
+                    "Inside Manager's room to mointor coke consumption"
+                ]
+}
+
+
 """
