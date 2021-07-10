@@ -64,10 +64,11 @@ def gen(camera):
 
 
 @api_view(['GET'])
-def Analysis(request,zone,org):
-    organizartion_obj = Organization.objects.get(name=org)
-    zone_obj = Zone.objects.get(organization=organizartion_obj, name=zone)
-    ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj).order_by("-updated_at"))[0]
+def Analysis(request,zid,oid,cid):
+    organizartion_obj = Organization.objects.get(id=oid)
+    zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
+    cam_obj = Zone.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
+    ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))[0]
     ar = ARSerializer(ar_obj)
     
     return Response(ar.data)

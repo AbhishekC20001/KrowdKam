@@ -41,6 +41,7 @@ class CCTVcam(models.Model):
 class AnalysisReport(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, default=None, null=True, blank=True)
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE,default=None,null=True, blank=True)
+    camera = models.ForeignKey(CCTVcam, on_delete=models.CASCADE,default=None,null=True, blank=True)
     num_of_infringements = models.IntegerField(default=0)
     total_people = models.IntegerField(default=0)
     status = models.IntegerField(default=1)

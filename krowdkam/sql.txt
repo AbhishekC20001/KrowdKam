@@ -1,0 +1,1 @@
+mysqldump -u root -p KrowdKam > kk.sql
