@@ -95,23 +95,27 @@
   } */
   .cont{
       position: relative;
-      background-color: rgb(255, 255, 255);
+      background-color: rgba(0,0,0, 0.5);
+      border:1px solid rgb(151, 151, 151);
       width: fit-content;
       padding-left: 1.563rem;
       padding-right: 1.438rem;
       padding-bottom: 0.125rem;
       border-radius: 0.313rem;
       position: absolute;
+      top:30%;
       right:10%;
       margin:0.5rem;
   }
   
   #cont-header{
+    color: white;
     font: 100;
     text-align: center;
     font-size: 1.438rem;
     margin-top: 0.625rem;
     margin-bottom: -1.063rem;
+    
   }
   
   .btn-register
@@ -207,6 +211,6 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     /* position: relative; */
-    height: 81.5vh;
+    height: 90vh;
     
   }
