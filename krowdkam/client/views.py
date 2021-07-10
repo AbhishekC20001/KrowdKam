@@ -1,16 +1,21 @@
 from django import shortcuts
 from django.shortcuts import render, redirect
 from django.apps import apps
+import datetime
+from datetime import timezone
 
 
 from django.http import HttpResponse
 from django.shortcuts import render
+# from django.utils.timezone import UTC
 from .models import *
 from django.core.mail import EmailMessage
 from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 import cv2
 import threading
+import pytz
+UTC=pytz.utc
 
 
 
@@ -63,17 +68,30 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
-# @api_view(['GET'])
-# def HourlyAnalysis(request):
-#     zid=request.POST.get('zid')
-#     oid=request.POST.get('oid')
-#     cid=request.POST.get('cid')
-#     organizartion_obj = Organization.objects.get(id=oid)
-#     zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
-#     cam_obj = Zone.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
-#     ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))[0]
-#     ar_obj.total_people/cam_obj.area
-
-#     ar = ARSerializer(ar_obj)
+@api_view(['GET'])
+def HourlyAnalysis(request,oid,zid,cid):
     
-#     return Response(ar.data)
+    now=datetime.datetime.now(UTC)
+    curr=int(now.strftime("%H"))
+    print(curr)
+
+    # zid=request.POST.get('zid')
+    # oid=request.POST.get('oid')
+    # cid=request.POST.get('cid')
+    organizartion_obj = Organization.objects.get(id=oid)
+    zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
+    cam_obj = CCTVcam.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
+    ar_objs = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))
+    print(ar_objs)
+    ar_obj=None
+    for i in range(len(ar_objs)):
+        tmpdt=(ar_objs[i].updated_at)
+        print(tmpdt)
+        if (int(tmpdt.strftime("%H"))==curr and int(tmpdt.strftime("%Y"))==int(now.strftime("%Y")) and int(tmpdt.strftime("%m"))==int(now.strftime("%m")) and int(tmpdt.strftime("%d")))==int(now.strftime("%d")):
+            print("Aayaaa")
+            ar_obj=ar_objs[i]
+    
+
+    ar = ARSerializer(ar_obj)
+    
+    return Response(ar.data)

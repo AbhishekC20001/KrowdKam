@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path("",views.clienthome,name='clienthome'),
-    # path("report",views.Analysis,name='Analysis')
+    path("report/<int:oid>/<int:zid>/<int:cid>",views.HourlyAnalysis,name='HourlyAnalysis')
 ]
