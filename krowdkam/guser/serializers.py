@@ -15,3 +15,9 @@ class ZoneSerializer(serializers.ModelSerializer):
         model= Zone
         fields = '__all__'
 
+
+class CamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= CCTVcam
+        fields = '__all__'
+
