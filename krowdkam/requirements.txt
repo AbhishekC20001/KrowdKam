@@ -6,3 +6,8 @@ sqlparse==0.4.1
 opencv-python==4.5.2.54
 djangorestframework==3.12.4
 djangorestframework-simplejwt
+torch==1.9.0
+h5py
+scipy
+Pillow==8.3.1
+matplotlib

@@ -1,11 +1,16 @@
 from django.db import models
 from django.utils.timezone import now
 # Create your models here.
+from django.utils import timezone
+import os
 
-
+'''
 def upload_cam_recordings(instance, filename):
-    return 'recording/recording_{0}/files/{1}'.format(instance.id, filename)
-
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+'''
 
 class Organization(models.Model):
     name = models.CharField(max_length=500, default='')
@@ -28,10 +33,16 @@ class Zone(models.Model):
     updated_at = models.DateTimeField(default=now, editable=False)
 
 
+class File(models.Model):
+    file = models.FileField(blank=False, null=False)
+    status = models.IntegerField(default=1)
+    created_at = models.DateTimeField(default=now, editable=False)
+    updated_at = models.DateTimeField(default=now, editable=False)
+
 class CCTVcam(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE,default=None,null=True, blank=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, default=None, null=True, blank=True)
-    recording = models.FileField(upload_to=upload_cam_recordings, null=True, blank=True)
+    recording = models.ForeignKey(File, on_delete=models.CASCADE,default=None,null=True, blank=True)        # upload_to=upload_cam_recordings,
     position = models.CharField(max_length=1000, default='')
     status = models.IntegerField(default=1)
     created_at = models.DateTimeField(default=now, editable=False)

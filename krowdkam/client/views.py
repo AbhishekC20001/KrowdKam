@@ -11,6 +11,7 @@ from django.views.decorators import gzip
 from django.http import StreamingHttpResponse
 import cv2
 import threading
+from rest_framework import status
 
 
 
@@ -18,7 +19,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from guser.models import User
 from client.models import Organization,CCTVcam,Zone, AnalysisReport
-from .serializers import UserSerializer,OrgSerializer,ZoneSerializer,CCTVSerializer, ARSerializer
+from .serializers import UserSerializer,OrgSerializer,ZoneSerializer,CCTVSerializer, ARSerializer, FileSerializer
 
 
 # Create your views here.
@@ -72,3 +73,40 @@ def Analysis(request,zid,oid,cid):
     ar = ARSerializer(ar_obj)
     
     return Response(ar.data)
+
+
+@api_view(['POST'])
+def crowd_count(request):
+    oid = request.POST.get('oid')
+    zid = request.POST.get('zid')
+    image = request.POST.get('image')
+    position = request.POST.get('position')
+    if 1:
+        organization_obj = Organization.objects.get(id=oid)
+        zone_obj = Zone.objects.get(id=zid)
+        cctv_obj = CCTVcam(organization=organization_obj,zone=zone_obj,recording=image,position=position)
+        cctv_obj.save()
+
+        return Response({"success": True, "message": "done"}, status = status.HTTP_200_OK)
+    #except:
+        #return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+
+
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+
+      file_serializer = FileSerializer(data=request.data)
+
+      if file_serializer.is_valid():
+          file_serializer.save()
+          return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

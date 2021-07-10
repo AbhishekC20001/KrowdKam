@@ -37,6 +37,6 @@ def zones(request, id):
         zone_objs = Zone.objects.filter(organization=organizartion_obj)
         zones = ZoneSerializer(zone_objs, many=True)
 
-        return Response({"success":True,"data":zones.data,"code":1})
+        return Response({"success":True,"data":zones.data}, status=status.HTTP_200_OK)
     except:
-        return Response({'success': False, "message": "Bad Request", "code": -2}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)

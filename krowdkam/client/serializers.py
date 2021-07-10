@@ -2,7 +2,7 @@ from django.db.models import fields
 from django.apps import apps
 from rest_framework import serializers
 from guser.models import User
-from client.models import Organization,Zone,CCTVcam,AnalysisReport
+from client.models import Organization,Zone,CCTVcam,AnalysisReport, File
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -29,3 +29,9 @@ class ARSerializer(serializers.ModelSerializer):
     class Meta:
         model= AnalysisReport
         fields = '__all__'
+
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = "__all__"

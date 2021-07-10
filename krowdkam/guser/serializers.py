@@ -15,3 +15,4 @@ class ZoneSerializer(serializers.ModelSerializer):
         model= Zone
         fields = '__all__'
 
+
