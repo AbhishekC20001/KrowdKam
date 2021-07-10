@@ -5,7 +5,7 @@ import "../styles/navbar.css";
 import Signup from "../components/signup";
 import Login from "../components/login";
 
-const ClientLogin = ()=>{
+const UserLogin = ()=>{
 
     return (
         <>
@@ -16,12 +16,10 @@ const ClientLogin = ()=>{
             <span class="detail">
                 We at Krowd-Kam have an aim of reducing the unecessary stress in people's life cause by waiting in lines and crowds.
             </span>
-            {/* <Login type={"CLIENT"}/> */}
             <Router>
                 <Switch>
-                    <Route  path="/client-login/login/">
-                    <Login type={"CLIENT"}/>
-                            
+                    <Route path="/user-login/login">
+                        <Login type={"USER"}/>
                                 {/* <div class="inp-grp-ysb">
                                     <input type="text" required/>
                                     <span class="highlight"></span>
@@ -38,8 +36,8 @@ const ClientLogin = ()=>{
                     </Route>
                             
                 
-                    <Route exact path="/client-login/signup">
-                        <Signup type={"CLIENT"}/>
+                    <Route exact path="/user-login/signup">
+                        <Signup type={"USER"}/>
                         {/* <span class="cont" >
                             <div id="cont-header">
                             REGISTER!
@@ -79,4 +77,4 @@ const ClientLogin = ()=>{
     );
 }
 
-export default ClientLogin;
+export default UserLogin;

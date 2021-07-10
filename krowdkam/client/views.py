@@ -18,8 +18,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from guser.models import User
-from client.models import Organization,CCTVcam,Zone, AnalysisReport
+
+# from client.models import Organization,CCTVcam,Zone, AnalysisReport
 from .serializers import UserSerializer,OrgSerializer,ZoneSerializer,CCTVSerializer, ARSerializer, FileSerializer
+
+from client.models import *
+from .serializers import *
+
 
 
 # Create your views here.
@@ -64,15 +69,20 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
-@api_view(['GET'])
-def Analysis(request,zid,oid,cid):
-    organizartion_obj = Organization.objects.get(id=oid)
-    zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
-    cam_obj = Zone.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
-    ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))[0]
-    ar = ARSerializer(ar_obj)
+# @api_view(['GET'])
+# def HourlyAnalysis(request):
+#     zid=request.POST.get('zid')
+#     oid=request.POST.get('oid')
+#     cid=request.POST.get('cid')
+#     organizartion_obj = Organization.objects.get(id=oid)
+#     zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
+#     cam_obj = Zone.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
+#     ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))[0]
+#     ar_obj.total_people/cam_obj.area
+
+#     ar = ARSerializer(ar_obj)
     
-    return Response(ar.data)
+
 
 
 @api_view(['POST'])
@@ -110,3 +120,4 @@ class FileUploadView(APIView):
           return Response(file_serializer.data, status=status.HTTP_201_CREATED)
       else:
           return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

@@ -33,7 +33,11 @@ left:6.25rem;
 } */
 #cont{
 position: relative;
-left:0%;
+left:-1%;
+/* border:2px solid red;
+background-color: aqua; */
+/* display: grid;
+  grid-template-columns: repeat(5, 1fr); */
 }
 
 .slick-prev {

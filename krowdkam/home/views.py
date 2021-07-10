@@ -18,21 +18,21 @@ def index(request):
     return render(request,'base.html')
 
 
-@api_view(['POST'])
-def UserReg(request):
-    userser=UserSerializer(data=request.data)
-    if userser.is_valid():
-        userser.save()
+# @api_view(['POST'])
+# def UserReg(request):
+#     userser=UserSerializer(data=request.data)
+#     if userser.is_valid():
+#         userser.save()
 
-    return Response(userser.data)
+#     return Response(userser.data)
 
-@api_view(['POST'])
-def OrgReg(request):
-    orgser=OrgSerializer(data=request.data)
-    if orgser.is_valid():
-        orgser.save()
+# @api_view(['POST'])
+# def OrgReg(request):
+#     orgser=OrgSerializer(data=request.data)
+#     if orgser.is_valid():
+#         orgser.save()
 
-    return Response(orgser.data)
+#     return Response(orgser.data)
 
 @api_view(['POST'])
 def ZoneReg(request):
@@ -54,32 +54,6 @@ def ZoneReg(request):
     zoneser=ZoneSerializer(data=zoneser)
     if zoneser.is_valid():
         zoneser.save()
-    return Response(zoneser.data)
-
-# @api_view(['POST'])
-# def CamReg(request):
-#     camser=request.data
-#     # print(camser['organization'])
-#     # zoneser['organization']="Imagica"
-    
-#     camser['organization']=Organization.objects.filter(name=camser['organization'])[0].id
-#     camser['zone']=Zone.objects.filter(name=camser['zone'],organization=camser['organization'])[0].id
-
-#     # print(camser)
-#     camser=CCTVSerializer(data=camser)
-#     if camser.is_valid():
-#         camser.save()
-
-#     return Response(camser.data)
-
-
-
-
-@api_view(['GET'])
-def ZoneGet(request):
-    zoneser=ZoneSerializer(Zone.objects.all(), many=True)
-    
-
     return Response(zoneser.data)
 
 

@@ -2,7 +2,9 @@ from django.db.models import fields
 from django.apps import apps
 from rest_framework import serializers
 from guser.models import User
-from client.models import Organization,Zone,CCTVcam,AnalysisReport, File
+
+from client.models import *
+
 
 
 class UserSerializer(serializers.ModelSerializer):
