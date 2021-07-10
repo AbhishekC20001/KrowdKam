@@ -19,22 +19,23 @@ from django.urls import include,path
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
+    # path('', include('home.urls')),
     path('', include('home.urls')),
-    path('/', include('home.urls')),
     # path('login', include('home.urls')),
     # path('logout', include('home.urls')),
     path('client/', include('client.urls')),
     path('guser/api/', include('guser.urls')),
     path('admin/', admin.site.urls),
-    path('', include('app.urls')),
-    '''
+    # path('', include('app.urls')),
+
+
+]
+
+'''
     path('api/token/',
          jwt_views.TokenObtainPairView.as_view(),
          name ='token_obtain_pair'),
     path('api/token/refresh/',
          jwt_views.TokenRefreshView.as_view(),
          name ='token_refresh'),
-    '''
-
-]
-
+'''

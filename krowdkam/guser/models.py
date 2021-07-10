@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.timezone import now
 # Create your models here.
+from django.contrib.auth.models import AbstractUser
 
-
-class User(models.Model):
+class User(AbstractUser):
     gender = models.CharField(max_length=10)
-    username = models.CharField(max_length=200,default='')
+    username = models.CharField(max_length=200,unique=True)
     password = models.CharField(max_length=200,default='')
     password2 = models.CharField(max_length=200,default='')
     age = models.IntegerField(default=0)
