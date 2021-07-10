@@ -20,18 +20,24 @@ def guserhome(request):
 
 @api_view(['GET'])
 def LocationCarousel(request):
-    nm = OrgSerializer(Organization.objects.filter(
-        address__icontains="Navi Mumbai"), many=True)
-    t = OrgSerializer(Organization.objects.filter(
-        address__icontains="Thane"), many=True)
-    m = OrgSerializer(Organization.objects.filter(
-        address__icontains="Mumbai"), many=True)
-    locations = {
-        "Navi Mumbai": nm.data,
-        "Thane": t.data,
-        "Mumbai": m.data
-    }
-    return Response(locations)
+    permission_classes = (IsAuthenticated,)
+    try:
+
+        nm = OrgSerializer(Organization.objects.filter(
+            address__icontains="Navi Mumbai"), many=True)
+        t = OrgSerializer(Organization.objects.filter(
+            address__icontains="Thane"), many=True)
+        m = OrgSerializer(Organization.objects.filter(
+            address__icontains="Mumbai"), many=True)
+        locations = {
+            "Navi Mumbai": nm.data,
+            "Thane": t.data,
+            "Mumbai": m.data
+        }
+        return Response({"success": True, "data": locations}, status=status.HTTP_200_OK)
+    except:
+        return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['GET'])

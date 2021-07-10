@@ -39,22 +39,28 @@ def ZoneReg(request):
     zoneser=request.data
     # print(zoneser['organization'])
     # zoneser['organization']="Imagica"
-    zoneser['organization']=Organization.objects.filter(name=zoneser['organization'])[0].id
-    zoneser['zone']=Zone.objects.filter(name=zoneser['zone'],organization=zoneser['organization'])[0].id
-    cameras=zoneser['cameras']
-    del zoneser['cameras']
-    # print(zoneser)
+    try:
 
-    for i in cameras:
-        camser={"organization":zoneser['organization'],"zone":zoneser['zone'],"position":i}
-        camser=CCTVSerializer(data=camser)
-        if camser.is_valid():
-            camser.save()
+        zoneser['organization']=Organization.objects.filter(name=zoneser['organization'])[0].id
+        zoneser['zone']=Zone.objects.filter(name=zoneser['zone'],organization=zoneser['organization'])[0].id
+        cameras=zoneser['cameras']
+        del zoneser['cameras']
+        # print(zoneser)
 
-    zoneser=ZoneSerializer(data=zoneser)
-    if zoneser.is_valid():
-        zoneser.save()
-    return Response(zoneser.data)
+        for i in cameras:
+            camser={"organization":zoneser['organization'],"zone":zoneser['zone'],"position":i}
+            camser=CCTVSerializer(data=camser)
+            if camser.is_valid():
+                camser.save()
+
+        zoneser=ZoneSerializer(data=zoneser)
+        if zoneser.is_valid():
+            zoneser.save()
+
+
+        return Response({"success": True, "data": zoneser.data}, status=status.HTTP_200_OK)
+    except:
+        return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 from .serializers import MyTokenObtainPairSerializer
