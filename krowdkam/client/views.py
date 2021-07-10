@@ -75,30 +75,34 @@ def gen(camera):
 
 
 @api_view(['GET'])
-def HourlyAnalysis(request,oid,zid,cid):
-    
-    now=datetime.datetime.now(UTC)
-    curr=int(now.strftime("%H"))
-    print(curr)
+def HourlyAnalysis(request):
+    try:
+        # ,oid,zid,cid
+        now=datetime.datetime.now(UTC)
+        curr=int(now.strftime("%H"))
+        print(curr)
 
-    # zid=request.POST.get('zid')
-    # oid=request.POST.get('oid')
-    # cid=request.POST.get('cid')
-    organizartion_obj = Organization.objects.get(id=oid)
-    zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
-    cam_obj = CCTVcam.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
-    ar_objs = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))
-    print(ar_objs)
-    ar_obj=None
-    for i in range(len(ar_objs)):
-        tmpdt=(ar_objs[i].updated_at)
-        print(tmpdt)
-        if (int(tmpdt.strftime("%H"))==curr and int(tmpdt.strftime("%Y"))==int(now.strftime("%Y")) and int(tmpdt.strftime("%m"))==int(now.strftime("%m")) and int(tmpdt.strftime("%d")))==int(now.strftime("%d")):
-            print("Aayaaa")
-            ar_obj=ar_objs[i]
+        zid=request.POST.get('zid')
+        oid=request.POST.get('oid')
+        cid=request.POST.get('cid')
+        organizartion_obj = Organization.objects.get(id=oid)
+        zone_obj = Zone.objects.get(organization=organizartion_obj, id=zid)
+        cam_obj = CCTVcam.objects.get(organization=organizartion_obj, zone=zone_obj,id=cid )
+        ar_objs = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=zone_obj,camera=cam_obj).order_by("-updated_at"))
+        print(ar_objs)
+        ar_obj=None
+        for i in range(len(ar_objs)):
+            tmpdt=(ar_objs[i].updated_at)
+            print(tmpdt)
+            if (int(tmpdt.strftime("%H"))==curr and int(tmpdt.strftime("%Y"))==int(now.strftime("%Y")) and int(tmpdt.strftime("%m"))==int(now.strftime("%m")) and int(tmpdt.strftime("%d")))==int(now.strftime("%d")):
+                print("Aayaaa")
+                ar_obj=ar_objs[i]
     
 
-    ar = ARSerializer(ar_obj)
+        ar = ARSerializer(ar_obj)
+        return Response(ar.data)
+    except:
+        return Response(ar.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 

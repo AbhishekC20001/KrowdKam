@@ -89,15 +89,12 @@ def zones(request, id):
                 res["livanalysis"][i.id] = cams
         print("Hello 10")
 
-<<<<<<< Updated upstream
 
 
         print(res)
         return Response({"success":True,"data":res}, status=status.HTTP_200_OK)
-=======
         print(res)
         return Response({"success": True, "data": res, "code": 1})
->>>>>>> Stashed changes
     except:
         return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
