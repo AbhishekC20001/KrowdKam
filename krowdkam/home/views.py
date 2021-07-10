@@ -73,7 +73,7 @@ class MyObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 from guser.models import User
-from home.serializers import RegisterSerializer
+from home.serializers import RegisterSerializer,OrgRegisterSerializer
 from rest_framework import generics
 
 
@@ -81,3 +81,8 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+
+class OrgRegisterView(generics.CreateAPIView):
+    queryset = Organization.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = OrgRegisterSerializer

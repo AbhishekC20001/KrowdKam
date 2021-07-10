@@ -85,3 +85,45 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class OrgRegisterSerializer(serializers.ModelSerializer):
+    # email = serializers.EmailField(
+    #     required=True,
+    #     validators=[UniqueValidator(queryset=User.objects.all())]
+    # )
+
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = Organization
+        fields = ('name', 'password', 'password2', 'description', 'address', 'long', 'lat', 'map', 'logo')
+        '''
+        extra_kwargs = {
+            'first_name': {'required': True},
+            'last_name': {'required': True}
+        }
+        '''
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
+
+        return attrs
+
+    def create(self, validated_data):
+        org = Organization.objects.create(
+            name=validated_data['name'],
+            description=validated_data['description'],
+            address=validated_data['address'],
+            long=validated_data['long'],
+            lat=validated_data['lat'],
+            map=validated_data['map'],
+            logo=validated_data['logo']
+        )
+
+        org.set_password(validated_data['password'])
+        org.save()
+
+        return org

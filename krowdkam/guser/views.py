@@ -42,54 +42,62 @@ def LocationCarousel(request):
 
 @api_view(['GET'])
 def zones(request, id):
-    permission_classes = (IsAuthenticated,)
     try:
+        permission_classes = (IsAuthenticated,)
         organizartion_obj = Organization.objects.get(id=id)
         zone_objs = Zone.objects.filter(organization=organizartion_obj)
         zones = ZoneSerializer(zone_objs, many=True)
         print("Hello")
 
-        zone_objs=list(zone_objs)
-        res={
-            "zones":zones.data,
-            "zonewisecams":{},
-            "livanalysis": {}
-        }
+        zone_objs = list(zone_objs)
+        res = {
+            "zones": zones.data,
+            "zonewisecams": {},
+                "livanalysis": {}
+            }
         print("Hello1")
         for i in zone_objs:
-            print("Hello2")
+                print("Hello2")
 
-            cam_objs = CCTVcam.objects.filter(organization=organizartion_obj, zone=i)
-            print("Hello3")
-            cams={}
+                cam_objs = CCTVcam.objects.filter(
+                    organization=organizartion_obj, zone=i)
+                print("Hello3")
+                cams = {}
 
-            camser=CamSerializer(cam_objs, many=True)
+                camser = CamSerializer(cam_objs, many=True)
 
-            res["zonewisecams"][i.id]=camser.data
+                res["zonewisecams"][i.id] = camser.data
 
-
-            for j in cam_objs:
-                ar_obj = list(AnalysisReport.objects.filter(organization=organizartion_obj, zone=i,camera=j).order_by("-updated_at"))[0]
-                safety=ar_obj.total_people/j.area
-                safe_str=""
-                if safety>=0 and safety<1:
-                    safe_str="Isolated"
-                if safety>=1 and safety<2:
-                    safe_str="Less Crowd"
-                if safety>=2 and safety<3:
-                    safe_str="Regular Crowd"
-                if safety>=3 and safety<4:
-                    safe_str="Crowded"
-                if safety>=4:
-                    safe_str="Overcrowded"
-                cams[j.id]=[safety,safe_str]
-            res["livanalysis"][i.id]=cams
+                for j in cam_objs:
+                    ar_obj = list(AnalysisReport.objects.filter(
+                        organization=organizartion_obj, zone=i, camera=j).order_by("-updated_at"))
+                    if len(ar_obj)>0:
+                        ar_obj=ar_obj[0]
+                        safety = ar_obj.total_people/j.area
+                        safe_str = ""
+                        if safety >= 0 and safety < 1:
+                            safe_str = "Isolated"
+                        if safety >= 1 and safety < 2:
+                            safe_str = "Less Crowd"
+                        if safety >= 2 and safety < 3:
+                            safe_str = "Regular Crowd"
+                        if safety >= 3 and safety < 4:
+                            safe_str = "Crowded"
+                        if safety >= 4:
+                            safe_str = "Overcrowded"
+                        cams[j.id] = [safety, safe_str]
+                res["livanalysis"][i.id] = cams
         print("Hello 10")
 
+<<<<<<< Updated upstream
 
 
         print(res)
         return Response({"success":True,"data":res}, status=status.HTTP_200_OK)
+=======
+        print(res)
+        return Response({"success": True, "data": res, "code": 1})
+>>>>>>> Stashed changes
     except:
         return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
