@@ -1,0 +1,14 @@
+.main-div{
+    width:100%;
+    height:80vh;
+    /* border:2px solid red; */
+    display: grid;
+    justify-content:center;
+    align-items: center;
+}
+
+.cam-div{
+    width: 100vh;
+    height:70%;
+    border:1px solid blue;
+}

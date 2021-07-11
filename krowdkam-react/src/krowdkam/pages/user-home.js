@@ -90,10 +90,12 @@ const UserHome = () =>{
 
     useEffect(()=>{
         console.log("Yes entered in user");
-        axios.get("/guser/api/location_carousel/")
+        console.log("Heyy",localStorage.getItem('krowdkam-access'));
+        const token = localStorage.getItem('krowdkam-access');
+        axios.get("/guser/api/location_carousel/",{ headers: {"Authorization" : `Bearer ${token}`}})
         .then(res=>{
             console.log("Yes",res);
-            setLocations(res.data);
+            setLocations(res.data.data);
         })
     },[])
 
@@ -103,7 +105,7 @@ const UserHome = () =>{
         let options = value.map((item)=>{
             return (
                 
-                <LocationDetail image={Imagica} data = {item}/>
+                <LocationDetail image={item.logo} data = {item}/>
             );
         })
 

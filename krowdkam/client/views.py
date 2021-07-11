@@ -116,37 +116,37 @@ ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 print("[INFO] accessing video stream...: ",len(LABELS))
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def crowd_count(request):
-    oid = request.POST.get('oid')
-    zid = request.POST.get('zid')
-    iid = request.POST.get('iid')
+    oid = request.GET.get('oid')
+    zid = request.GET.get('zid')
+    iid = request.GET.get('iid')
     # image = request.POST.get('image')
-    position = request.POST.get('position')
-    try:
-        organization_obj = Organization.objects.get(id=oid)
-        zone_obj = Zone.objects.get(id=zid)
-        image = File.objects.get(id=iid)
-        cctv_obj = CCTVcam(organization=organization_obj,zone=zone_obj,recording=image,position=position)
-        cctv_obj.save()
+    position = request.GET.get('position')
+    # try:
+    organization_obj = Organization.objects.get(id=oid)
+    zone_obj = Zone.objects.get(id=zid)
+    image = File.objects.get(id=iid)
+    cctv_obj = CCTVcam(organization=organization_obj,zone=zone_obj,recording=image,position=position)
+    cctv_obj.save()
 
-        print(image.file)
-        image = Image.open(os.path.join(BASE_DIR, "media", str(image.file)))
-        # convert image to numpy array
-        frame = asarray(image)
-        # frame = os.path.join(BASE_DIR, "media", loc)
-        # print(self.frame)
-        frame = imutils.resize(frame, width=700)
-        results = detect_people(frame, net, ln,personIdx=LABELS.index("person"))
+    print(image.file)
+    image = Image.open(os.path.join(BASE_DIR, "media", str(image.file)))
+    # convert image to numpy array
+    frame = asarray(image)
+    # frame = os.path.join(BASE_DIR, "media", loc)
+    # print(self.frame)
+    frame = imutils.resize(frame, width=700)
+    results = detect_people(frame, net, ln,personIdx=LABELS.index("person"))
 
-        ppl_count = len(results)
+    ppl_count = len(results)
 
-        analysis_report_obj = AnalysisReport(organization=organization_obj,zone=zone_obj,camera=cctv_obj,total_people=ppl_count)
-        analysis_report_obj.save()
+    analysis_report_obj = AnalysisReport(organization=organization_obj,zone=zone_obj,camera=cctv_obj,total_people=ppl_count)
+    analysis_report_obj.save()
 
-        return Response({"success": True, "message": "done"}, status = status.HTTP_200_OK)
-    except:
-        return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"success": True, "message": "done"}, status = status.HTTP_200_OK)
+    # except:
+    #     return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 from rest_framework.parsers import FileUploadParser

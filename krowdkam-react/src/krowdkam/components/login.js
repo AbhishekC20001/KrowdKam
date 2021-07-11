@@ -29,7 +29,7 @@ const Login = ({type}) =>{
                 if(type == "USER")
                     window.location.href="http://localhost:3000/user";
                 else
-                    window.location.href="http://localhost:3000/user";
+                    window.location.href="http://localhost:3000/client";
             }
 
         }).catch(e=>{

@@ -6,6 +6,9 @@ import ClientLogin from "./pages/client-login";
 import Navbar from "./components/Navbar";
 import UserHome from "./pages/user-home";
 import UserLocation from "./pages/user-location";
+import ClientHome from "./pages/client-home";
+import ClientZoneReg from "./pages/client-zone-register";
+import ClientCam from "./pages/client-cam";
 
 
 
@@ -24,6 +27,21 @@ const Krowdkam = ()=>{
 
 
     // },[]);
+    const [organization,setOrganization] = useState({
+        address: "Khopoli, Navi Mumbai",
+        created_at: "2021-07-11T08:05:06.297414Z",
+        description: "Imagicaa is a 130-acre theme park in Khopoli, India. It is owned by Imagicaaworld Entertainment Ltd.",
+        id: 1,
+        lat: "21.000000",
+        logo: "/imagica.jpg",
+        long: "21.000000",
+        map: "/Img_map_1.jpg",
+        name: "Imagica",
+        password: "orgi@123",
+        password2: "orgi@123",
+        status: 1,
+        updated_at: "2021-07-11T08:05:06.297414Z",
+    })
 
     return (
         <>
@@ -33,21 +51,29 @@ const Krowdkam = ()=>{
                     <Navbar type={"user"}/>
                     <UserLogin/>
                 </Route>
-                <Route  path="/client-login/">
+                {/* <Route  path="/client-login/">
                     <Navbar type={"client"}/>
                     <ClientLogin/>
-                </Route>
+                </Route> */}
                 <Route exact path="/client/">
                     <Navbar type={"client"}/>
-                    {/* <ClientHome/> */}
+                    <ClientHome organization = {organization}/>
+                </Route>
+                <Route exact path="/client/zone-register">
+                    <Navbar type={"client"}/>
+                    <ClientZoneReg organization = {organization}/>
+                </Route>
+                <Route exact path="/client/cam">
+                    <Navbar type={"client"}/>
+                    <ClientCam organization = {organization}/>
                 </Route>
                 <Route exact path="/user">
                     <Navbar type={"user"}/>
-                    <UserHome/>
+                    <UserHome organization = {organization}/>
                 </Route>
                 <Route exact path="/user/:id">
                     <Navbar type={"user"}/>
-                    <UserLocation/>
+                    <UserLocation organization = {organization}/>
                 </Route>
             </Switch>
         </Router>
