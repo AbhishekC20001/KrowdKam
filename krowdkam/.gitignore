@@ -27,6 +27,8 @@ media
 *.iws /out/ 
 
 **.idea/**
+client/detection/
+client/yolo-coco/
 
 
 # Python # 

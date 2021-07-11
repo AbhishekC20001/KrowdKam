@@ -14,10 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
-def guserhome(request):
-    return HttpResponse("Hello, world")
-
-
 @api_view(['GET'])
 def LocationCarousel(request):
     permission_classes = (IsAuthenticated,)

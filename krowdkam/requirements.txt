@@ -11,3 +11,4 @@ h5py
 scipy
 Pillow==8.3.1
 matplotlib
+imutils

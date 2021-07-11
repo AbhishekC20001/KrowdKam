@@ -15,8 +15,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 # Create your views here.
-def index(request):
-    return render(request,'base.html')
 
 
 # @api_view(['POST'])

@@ -30,49 +30,18 @@ from .serializers import UserSerializer,OrgSerializer,ZoneSerializer,CCTVSeriali
 from client.models import *
 from .serializers import *
 
+import os
+import imutils
+import numpy as np
+from .detection import social_distance_config as config
+from .detection.detection import detect_people
+import argparse
+from scipy.spatial import distance as dist
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Create your views here.
-def clienthome(request):
-    return HttpResponse("Hello, world")
-
-
-@gzip.gzip_page
-def Home(request):
-    try:
-        cam = VideoCamera()
-        return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
-    except:
-        pass
-    return render(request, 'recording.html')
-
-
-# to capture video class
-class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
-        (self.grabbed, self.frame) = self.video.read()
-        threading.Thread(target=self.update, args=()).start()
-
-    def __del__(self):
-        self.video.release()
-
-    def get_frame(self):
-        image = self.frame
-        _, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
-
-    def update(self):
-        while True:
-            (self.grabbed, self.frame) = self.video.read()
-
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
+from PIL import Image
+from numpy import asarray
 
 @api_view(['GET'])
 def HourlyAnalysis(request):
@@ -105,24 +74,59 @@ def HourlyAnalysis(request):
         return Response(ar.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
+# initial configuration for object detection
+labelsPath = os.path.sep.join([config.MODEL_PATH, "coco.names"])
+print(labelsPath)
+# labelsPath = os.path.abspath(labelsPath)
+labelsPath = "client\\" + labelsPath
+print(labelsPath)
+LABELS = open(labelsPath).read().strip().split("\n")
+# derive the paths to the YOLO weights and model configuration
+weightsPath = "client\\" + os.path.sep.join([config.MODEL_PATH, "yolov3.weights"])
+configPath = "client\\" + os.path.sep.join([config.MODEL_PATH, "yolov3.cfg"])
 
+# load our YOLO object detector trained on COCO dataset (80 classes)
+print("[INFO] loading YOLO from disk...")
+net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
+print("Checking for net: ",net)
+# determine only the *output* layer names that we need from YOLO
+ln = net.getLayerNames()
+ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+# initialize the video stream and pointer to output video file
+print("[INFO] accessing video stream...: ",len(LABELS))
 
 
 @api_view(['POST'])
 def crowd_count(request):
     oid = request.POST.get('oid')
     zid = request.POST.get('zid')
-    image = request.POST.get('image')
+    iid = request.POST.get('iid')
+    # image = request.POST.get('image')
     position = request.POST.get('position')
-    if 1:
+    try:
         organization_obj = Organization.objects.get(id=oid)
         zone_obj = Zone.objects.get(id=zid)
+        image = File.objects.get(id=iid)
         cctv_obj = CCTVcam(organization=organization_obj,zone=zone_obj,recording=image,position=position)
         cctv_obj.save()
 
+        print(image.file)
+        image = Image.open(os.path.join(BASE_DIR, "media", str(image.file)))
+        # convert image to numpy array
+        frame = asarray(image)
+        # frame = os.path.join(BASE_DIR, "media", loc)
+        # print(self.frame)
+        frame = imutils.resize(frame, width=700)
+        results = detect_people(frame, net, ln,personIdx=LABELS.index("person"))
+
+        ppl_count = len(results)
+
+        analysis_report_obj = AnalysisReport(organization=organization_obj,zone=zone_obj,camera=cctv_obj,total_people=ppl_count)
+        analysis_report_obj.save()
+
         return Response({"success": True, "message": "done"}, status = status.HTTP_200_OK)
-    #except:
-        #return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 from rest_framework.parsers import FileUploadParser
