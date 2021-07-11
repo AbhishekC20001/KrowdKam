@@ -93,8 +93,7 @@ def zones(request, id):
 
         print(res)
         return Response({"success":True,"data":res}, status=status.HTTP_200_OK)
-        print(res)
-        return Response({"success": True, "data": res, "code": 1})
+
     except:
         return Response({'success': False, "message": "Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 

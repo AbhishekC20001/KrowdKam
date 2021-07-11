@@ -100,7 +100,7 @@ def HourlyAnalysis(request):
     
 
         ar = ARSerializer(ar_obj)
-        return Response(ar.data)
+        return Response(ar.data, status=status.HTTP_200_OK)
     except:
         return Response(ar.errors, status=status.HTTP_400_BAD_REQUEST)
     
