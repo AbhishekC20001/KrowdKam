@@ -23,8 +23,8 @@ class Organization(models.Model):
     updated_at = models.DateTimeField(default=now, editable=False)
     map = models.ImageField(default=None)
     logo = models.ImageField(default=None)
-    # password = models.CharField(max_length=200,default='')
-    # password2 = models.CharField(max_length=200,default='')
+    password = models.CharField(max_length=200,default='')
+    password2 = models.CharField(max_length=200,default='')
 
 
 class Zone(models.Model):
